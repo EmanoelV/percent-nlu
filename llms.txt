@@ -10,7 +10,7 @@ Use it to add natural-language input to a percentage calculator, a spreadsheet, 
 - Tools: percent_of (X% of Y), what_percent (X is what % of Y), percent_increase, percent_decrease (% change from A to B),
   apply_increase (Y plus X%), apply_decrease (Y minus X%); also detects missing numbers ("incomplete") and
   non-percentage questions ("out_of_scope").
-- Install: `npm install percent-nlu` (JavaScript) or `pip install percent-nlu` (Python).
+- Install: `npm install percent-nlu` (JavaScript) or `pip install "percent-nlu @ git+https://github.com/EmanoelV/percent-nlu#subdirectory=python"` (Python).
 - Accuracy on hand-checked gold sets: 90–98% exact (tool + every argument) across English, Spanish and Portuguese; the confidence gate answers ~80–95% of questions at ~96–100% precision.
 
 ## Links
@@ -19,5 +19,4 @@ Use it to add natural-language input to a percentage calculator, a spreadsheet, 
 - [Model (Hugging Face)](https://huggingface.co/EmanoelV/percent-nlu)
 - [Live demo](https://huggingface.co/spaces/EmanoelV/percent-nlu-demo)
 - [npm package](https://www.npmjs.com/package/percent-nlu)
-- [PyPI package](https://pypi.org/project/percent-nlu/)
 - [Percentage calculator using it in production](https://icupu.com/percentage-calculator)

@@ -6,7 +6,6 @@ entirely in the browser, in about a millisecond, with no server and no API key.*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![npm](https://img.shields.io/npm/v/percent-nlu)](https://www.npmjs.com/package/percent-nlu)
-[![PyPI](https://img.shields.io/pypi/v/percent-nlu)](https://pypi.org/project/percent-nlu/)
 [![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97-model-yellow)](https://huggingface.co/EmanoelV/percent-nlu)
 [![Demo](https://img.shields.io/badge/demo-live-blue)](https://huggingface.co/spaces/EmanoelV/percent-nlu-demo)
 
@@ -91,8 +90,10 @@ No build step? Use a CDN:
 ### Python
 
 ```bash
-pip install percent-nlu
+pip install "percent-nlu @ git+https://github.com/EmanoelV/percent-nlu#subdirectory=python"
 ```
+
+(Installs straight from this repository; the model is bundled. Needs only PyTorch.)
 
 ```python
 import percent_nlu

@@ -4,7 +4,7 @@
 returns the right calculator tool call with every number in its role. Needs only PyTorch; the model is bundled. MIT.**
 
 ```bash
-pip install percent-nlu
+pip install "percent-nlu @ git+https://github.com/EmanoelV/percent-nlu#subdirectory=python"
 ```
 
 ```python

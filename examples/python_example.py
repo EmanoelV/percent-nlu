@@ -1,4 +1,5 @@
-# pip install percent-nlu   →   python examples/python_example.py
+# pip install "percent-nlu @ git+https://github.com/EmanoelV/percent-nlu#subdirectory=python"
+# python examples/python_example.py
 import percent_nlu
 
 nlu = percent_nlu.load()

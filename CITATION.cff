@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use percent-nlu, please cite it as below."
+title: "percent-nlu: a tiny on-device model for natural-language percentage questions"
+type: software
+authors:
+  - name: "Emanoel S. Vieira"
+version: "1.0.0"
+date-released: "2026-10-02"
+license: MIT
+repository-code: "https://github.com/EmanoelV/percent-nlu"
+url: "https://huggingface.co/EmanoelV/percent-nlu"
+keywords:
+  - percentage calculator
+  - natural language understanding
+  - tiny model
+  - on-device
+  - tool calling
+  - English
+  - Portuguese
+  - Spanish
+abstract: >-
+  percent-nlu is a 1.16M-parameter Transformer that reads percentage questions written in English,
+  Portuguese or Spanish and returns the matching calculator tool call (percent_of, what_percent, percent_increase,
+  percent_decrease, apply_increase, apply_decrease) with each number in its role. It runs in the browser
+  (1.2 MB int8, dependency-free JavaScript) in about a millisecond.

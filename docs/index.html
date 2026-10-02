@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>percent-nlu demo — natural-language percentage calculator model</title>
+<meta name="description" content="Type a percentage question in English, Portuguese or Spanish. A 1.2 MB open-source model running in your browser picks the right calculation in about a millisecond.">
+<meta property="og:title" content="percent-nlu — natural-language percentage calculator model">
+<meta property="og:description" content="Tiny open-source model (1.16M parameters) that understands percentage questions in English, Portuguese and Spanish. Runs in the browser.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://emanoelv.github.io/percent-nlu/">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"percent-nlu","applicationCategory":"DeveloperApplication",
+ "operatingSystem":"Any (browser, Node.js, Python)","softwareVersion":"1.0.0","license":"https://opensource.org/licenses/MIT",
+ "description":"Tiny open-source natural-language model that turns percentage questions in English, Portuguese and Spanish into calculator tool calls, running on-device.",
+ "codeRepository":"https://github.com/EmanoelV/percent-nlu","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+ "author":{"@type":"Person","name":"Emanoel S. Vieira"},"inLanguage":["en","pt","es"]}
+</script>
+<style>
+:root{--bg:#f7f7f5;--fg:#1d1d1b;--mut:#6b6b66;--line:#e3e2dd;--card:#fff;--acc:#2f6fdb;--ok:#1f8a4c;--warn:#b7791f;--bad:#c2412d}
+@media (prefers-color-scheme:dark){:root{--bg:#161615;--fg:#ecebe7;--mut:#9a9993;--line:#33322f;--card:#1f1f1d;--acc:#6b9cf0;--ok:#4cc27e;--warn:#e0a84a;--bad:#ef7a64}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,-apple-system,sans-serif}
+main{max-width:720px;margin:0 auto;padding:28px 16px 48px}
+h1{font-size:24px;margin:0 0 4px}.sub{color:var(--mut);margin:0 0 20px}
+form{display:flex;gap:8px;flex-wrap:wrap}input,select,button{font:inherit;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--fg)}
+input{flex:1;min-width:220px;font-size:17px}button{background:var(--acc);color:#fff;border:0;cursor:pointer}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-top:16px}
+.ans{font-size:22px;font-weight:650;margin:2px 0 8px}.chip{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;border:1px solid var(--line);color:var(--mut);margin-right:6px}
+.call{color:var(--ok);border-color:var(--ok)}.low_confidence{color:var(--warn);border-color:var(--warn)}.incomplete{color:var(--acc);border-color:var(--acc)}.out_of_scope{color:var(--bad);border-color:var(--bad)}
+.mut{color:var(--mut);font-size:13px}code{font-size:13px;word-break:break-word}
+.ex{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}.ex button{background:transparent;color:var(--fg);border:1px solid var(--line);font-size:13px;padding:6px 10px}
+footer{margin-top:32px;color:var(--mut);font-size:13px}a{color:var(--acc)}
+</style>
+</head>
+<body>
+<main>
+  <h1>percent-nlu</h1>
+  <p class="sub">Ask a percentage question in English, Português or Español. A 1.2 MB open-source model answers it
+    <b>in your browser</b> — nothing is sent to a server.</p>
+  <form id="f">
+    <select id="lang" aria-label="language"><option value="">auto</option><option value="en">English</option><option value="pt">Português</option><option value="es">Español</option></select>
+    <input id="q" placeholder="how much is an 18% tip on $64?" autocomplete="off" aria-label="question">
+    <button>Calculate</button>
+  </form>
+  <div class="ex" id="ex"></div>
+  <div class="card" id="out" hidden></div>
+  <p class="mut" id="load">loading model…</p>
+  <footer>
+    Open source (MIT): <a href="https://github.com/EmanoelV/percent-nlu">GitHub</a> ·
+    <a href="https://huggingface.co/EmanoelV/percent-nlu">Hugging Face</a> ·
+    <a href="https://www.npmjs.com/package/percent-nlu">npm</a> ·
+    <a href="https://pypi.org/project/percent-nlu/">PyPI</a>.
+    In production at <a href="https://icupu.com/percentage-calculator">icupu.com Percentage Calculator</a>.
+  </footer>
+</main>
+<script type="module">
+import { NLU } from "./percent-nlu.js";
+const EX = [["how much is an 18% tip on $64?", "en"], ["I got 38 out of 50, what percent is that?", "en"], ["rent went up from 1,450 to 1,595", "en"],
+  ["quanto é 30% de desconto em 250?", "pt"], ["investi 100 e agora tenho 110", "pt"], ["1.200 com 15% de desconto", "pt"],
+  ["cuánto es el 15% de 80?", "es"], ["súmale el 21% de iva a 120", "es"], ["el precio bajó de 49,99 a 39,99", "es"]];
+const nf = (v) => v == null ? "?" : Number(v).toLocaleString(undefined, { maximumFractionDigits: 2 });
+const SAY = {
+  percent_of: (a, r) => `${nf(a.rate)}% of ${nf(a.base)} = ${nf(r)}`, what_percent: (a, r) => `${nf(a.part)} is ${nf(r)}% of ${nf(a.whole)}`,
+  percent_increase: (a, r) => `${nf(a.initial)} → ${nf(a.final)}: +${nf(r)}%`, percent_decrease: (a, r) => `${nf(a.initial)} → ${nf(a.final)}: −${nf(r)}%`,
+  apply_increase: (a, r) => `${nf(a.base)} + ${nf(a.rate)}% = ${nf(r)}`, apply_decrease: (a, r) => `${nf(a.base)} − ${nf(a.rate)}% = ${nf(r)}`,
+};
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+let nlu;
+function run(text, lg) {
+  const r = nlu.predict(text, lg || undefined);
+  let ans = r.status === "out_of_scope" ? "Not a percentage calculation."
+    : r.status === "incomplete" ? `Understood ${r.intent}, missing: ${r.missing.join(", ")}` : SAY[r.tool](r.args, r.result);
+  out.hidden = false;
+  out.innerHTML = `<span class="chip ${r.status}">${r.status.replace("_", " ")}</span><span class="chip">${r.lang}</span>` +
+    `<span class="chip">confidence ${(r.confidence * 100).toFixed(1)}%</span><span class="chip">${r.timing.total_ms.toFixed(2)} ms</span>` +
+    `<div class="ans">${esc(ans)}</div><div class="mut">tool <code>${r.tool ?? "—"}</code> · args <code>${esc(JSON.stringify(r.args))}</code>` +
+    `${r.formula ? ` · <code>${esc(r.formula)}</code>` : ""}</div><div class="mut">model input: <code>${esc(r.masked)}</code></div>`;
+}
+f.onsubmit = (e) => { e.preventDefault(); if (nlu && q.value.trim()) run(q.value, lang.value); };
+ex.innerHTML = EX.map(([t, l], i) => `<button type="button" data-i="${i}">${esc(t)}</button>`).join("");
+ex.onclick = (e) => { const b = e.target.closest("button"); if (!b || !nlu) return; const [t, l] = EX[b.dataset.i]; q.value = t; lang.value = l; run(t, l); };
+try {
+  nlu = await NLU.load("./model/");
+  const lt = nlu.loadTiming;
+  load.textContent = `model ${nlu.name} · ${(lt.bytes / 1e6).toFixed(2)} MB · loaded in ${(lt.fetch_ms + lt.init_ms).toFixed(0)} ms`;
+} catch (err) { load.textContent = "failed to load the model: " + err; }
+</script>
+</body>
+</html>

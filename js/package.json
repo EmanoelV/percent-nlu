@@ -1,0 +1,62 @@
+{
+  "name": "percent-nlu",
+  "version": "1.0.0",
+  "description": "Tiny on-device model that understands percentage questions in English, Portuguese and Spanish and returns the right calculator tool call. Runs in the browser in ~1 ms, no server.",
+  "type": "module",
+  "main": "./percent-nlu.js",
+  "types": "./percent-nlu.d.ts",
+  "exports": {
+    ".": {
+      "types": "./percent-nlu.d.ts",
+      "default": "./percent-nlu.js"
+    },
+    "./model/*": "./model/*"
+  },
+  "files": [
+    "percent-nlu.js",
+    "percent-nlu.d.ts",
+    "model/",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "percentage",
+    "percent",
+    "percentage-calculator",
+    "calculator",
+    "natural-language",
+    "nlu",
+    "nlp",
+    "tiny-model",
+    "on-device",
+    "browser",
+    "offline",
+    "tool-calling",
+    "intent-classification",
+    "porcentagem",
+    "porcentaje",
+    "machine-learning",
+    "transformer"
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "Emanoel S. Vieira",
+    "url": "https://github.com/EmanoelV"
+  },
+  "homepage": "https://github.com/EmanoelV/percent-nlu#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EmanoelV/percent-nlu.git",
+    "directory": "js"
+  },
+  "bugs": {
+    "url": "https://github.com/EmanoelV/percent-nlu/issues"
+  },
+  "scripts": {
+    "test": "node test/parity_test.mjs"
+  }
+}

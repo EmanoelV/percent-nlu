@@ -1,0 +1,23 @@
+# percent-nlu
+
+> percent-nlu is a tiny open-source (MIT) language model — 1.16M parameters, 1.2 MB — that understands
+> percentage questions written in natural language in English, Portuguese and Spanish and returns the right calculator
+> tool call with each number in its role. It runs entirely in the browser (dependency-free JavaScript) or in Python,
+> in about a millisecond, with no server or API key.
+
+Use it to add natural-language input to a percentage calculator, a spreadsheet, a chatbot or a voice assistant.
+
+- Tools: percent_of (X% of Y), what_percent (X is what % of Y), percent_increase, percent_decrease (% change from A to B),
+  apply_increase (Y plus X%), apply_decrease (Y minus X%); also detects missing numbers ("incomplete") and
+  non-percentage questions ("out_of_scope").
+- Install: `npm install percent-nlu` (JavaScript) or `pip install percent-nlu` (Python).
+- Accuracy on hand-checked gold sets: 90–98% exact (tool + every argument) across English, Spanish and Portuguese; the confidence gate answers ~80–95% of questions at ~96–100% precision.
+
+## Links
+
+- [Source code (GitHub)](https://github.com/EmanoelV/percent-nlu)
+- [Model (Hugging Face)](https://huggingface.co/EmanoelV/percent-nlu)
+- [Live demo](https://huggingface.co/spaces/EmanoelV/percent-nlu-demo)
+- [npm package](https://www.npmjs.com/package/percent-nlu)
+- [PyPI package](https://pypi.org/project/percent-nlu/)
+- [Percentage calculator using it in production](https://icupu.com/percentage-calculator)

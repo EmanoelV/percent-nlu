@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "percent-nlu"
+version = "1.0.0"
+description = "Tiny on-device model that understands percentage questions in English, Portuguese and Spanish and returns the right calculator tool call."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Emanoel S. Vieira" }]
+requires-python = ">=3.9"
+dependencies = ["torch>=2.0"]
+keywords = ["percentage", "percentage calculator", "natural language", "nlu", "tiny model", "on-device", "tool calling", "porcentagem", "porcentaje"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Intended Audience :: Developers",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+  "Topic :: Text Processing :: Linguistic",
+  "Natural Language :: English",
+  "Natural Language :: Portuguese (Brazilian)",
+  "Natural Language :: Spanish",
+]
+
+[project.urls]
+Homepage = "https://github.com/EmanoelV/percent-nlu"
+Model = "https://huggingface.co/EmanoelV/percent-nlu"
+Demo = "https://huggingface.co/spaces/EmanoelV/percent-nlu-demo"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+percent_nlu = ["model/*", "locales/*/*.json"]
